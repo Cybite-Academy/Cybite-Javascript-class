@@ -1,0 +1,9 @@
+{
+  "student": [
+    { "id": "1", "name": "John", "course": "Software Engineering" },
+    { "id": "2", "name": "Peter", "course": "Pharmacy" },
+    { "id": "3", "name": "Paul", "course": "Medicine" },
+    { "id": "4", "name": "Augustus", "course": "Law" },
+    { "id": "5", "name": "Silvernus", "course": "Computer Science" }
+  ]
+}
