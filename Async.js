@@ -87,28 +87,81 @@
 // }, 700);
 
 // ! Promise
-
-let p = document.querySelector('p');
-const getAnimeImage = async () => {
-  const url = "https://any-anime.p.rapidapi.com/v1/anime/gif/1";
-  let key = "88f62bc687msh289fc8ba43cbba8p18b56fjsn8d2ad75f1744";
-  const options = {
-    method: "GET",
-    headers: {
-      "x-rapidapi-key": key,
-      "x-rapidapi-host": "any-anime.p.rapidapi.com",
-    },
-  };
-
-  fetch(url, options).then((response) => {
-    return response.json();
-  }).then(data =>{
-    // console.log(data)
-    p.addEventListener('click', ()=>{
-        p.innerHTML = `<img src="${data.images[0]}">`;
-    })
-  })
+/*
+let p = document.querySelector("p");
+const url = "https://any-anime.p.rapidapi.com/v1/anime/gif2/1";
+let key = "88f62bc687msh289fc8ba43cbba8p18b56fjsn8d2ad75f1744";
+const options = {
+  method: "GET",
+  headers: {
+    "x-rapidapi-key": key,
+    "x-rapidapi-host": "any-anime.p.rapidapi.com",
+  },
 };
 
-getAnimeImage();
+p.addEventListener("click", () => {
+  p.innerHTML = `<div class="spinner-grow" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>`;
 
+  const getAnimeImage = fetch(url, options);
+  getAnimeImage
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      p.innerHTML = `<img src="${data.images[0]}">`;
+    })
+    .catch((error) => {
+      //       p.innerHTML = `<div class="alert alert-danger" role="alert">
+      //   A simple danger alert—check it out!
+      //     </div>`;
+      
+      console.log('error occurred', error);
+      throw error;
+    });
+});
+*/
+
+let p = document.querySelector("p");
+
+const url = "https://any-anime.p.rapidapi.com/v1/anime/gif/1";
+let key = "88f62bc687msh289fc8ba43cbba8p18b56fjsn8d2ad75f1744";
+const options = {
+  method: "GET",
+  headers: {
+    "x-rapidapi-key": key,
+    "x-rapidapi-host": "any-anime.p.rapidapi.com",
+  },
+};
+
+p.addEventListener("dblclick", () => {
+  const fetchImage = async () => {
+    try {
+      p.innerHTML = `<div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>`;
+      const response = await fetch(url, options);
+      //   console.log(response);
+      if (!response.ok) {
+        p.innerHTML = ` <div class="main">
+          <h1 class="error">404</h1>
+          <div class="text">Ooops!!! The page you are looking for is not found</div>
+          <a class="back-home" href="#">Back to home</a>
+      </div>`;
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      p.innerHTML = `<img src="${data.images[0]}">`;
+    } catch (error) {
+      console.log("Error fetching data:", error);
+      throw error;
+    }
+  };
+
+  fetchImage();
+});
